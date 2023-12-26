@@ -50,7 +50,7 @@ def game():
                     print(f"Game Over! Score: {score}")
                     gameover_txt = font.render(f"GameOver! Score:{score}",True,(0,0,255))
                     screen.blit(gameover_txt,[60,200])
-                    pg.display.flip()  # この行を追加
+                    pg.display.flip()  
                     time.sleep(4)
                     pg.quit()
                     sys.exit()
@@ -74,7 +74,7 @@ def game():
                     score -= 1  #障害物に当たったらスコア　-1
                     gameover_txt = font.render(f"GameOver! Score:{score}",True,(0,0,255))
                     screen.blit(gameover_txt,[60,200])
-                    pg.display.flip()  # この行を追加
+                    pg.display.flip()  
                     time.sleep(4)
                     pg.quit()
                     sys.exit()
