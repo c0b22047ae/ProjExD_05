@@ -1,6 +1,7 @@
 import pygame as pg
 import random
 import sys
+import time
 
 pg.init()
 
@@ -28,8 +29,8 @@ def game():
 
     obstacles = []
     score = 0  #スコア
-    lives = 3  #プレイヤーのライフを設定
     gasoline = 100  #ガソリン
+    global gameover_txt
     global player_x
     font = pg.font.Font(None,36)  # フォントオブジェクトを作成
 
@@ -47,9 +48,15 @@ def game():
             gasoline -= 1
             if gasoline == 0:  #ガソリンが0になったら
                     print(f"Game Over! Score: {score}")
+                    gameover_txt = font.render(f"GameOver! Score:{score}",True,(0,0,255))
+                    screen.blit(gameover_txt,[60,200])
+                    pg.display.flip()  # この行を追加
+                    time.sleep(4)
                     pg.quit()
                     sys.exit()
+                    
 
+        
         if random.randint(1, 20) == 1:
             obstacle_x = random.randint(0, WIDTH - obstacle_width)
             obstacle_y = -obstacle_height
@@ -64,20 +71,18 @@ def game():
                 and player_y + player_height > obstacle[1]
             ):
                 if not keys[pg.K_RETURN]:
-                    lives -= 1   #障害物に当たったらライフ -1
                     score -= 1  #障害物に当たったらスコア　-1
-                if lives == 0 or score < 0:  #ライフが0になったらorスコアが0より小さくなったら
-                    print(f"Game Over! Score: {score}")
+                    gameover_txt = font.render(f"GameOver! Score:{score}",True,(0,0,255))
+                    screen.blit(gameover_txt,[60,200])
+                    pg.display.flip()  # この行を追加
+                    time.sleep(4)
                     pg.quit()
                     sys.exit()
-
+                    
         screen.fill((0, 0, 0))
         
         gasoline_text = font.render(f"gasoline{gasoline}",True,(255,255,255))
-        lives_text = font.render(f"Lives: {lives}", True, (255, 255, 255))  # ライフの数を描画するテキストを作成
         screen.blit(gasoline_text, (30, 30))  # テキストを画面上に描画
-        screen.blit(lives_text, (10, 10))  # テキストを画面上に描画
-
         draw_player(player_x, player_y)
 
         for obstacle in obstacles:
